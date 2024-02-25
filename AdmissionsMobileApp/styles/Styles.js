@@ -5,6 +5,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white',
     },
 
     row: {
@@ -14,4 +15,21 @@ export default StyleSheet.create({
     textCenter: {
         textAlign: 'center',
     },
+
+    textBoil: {
+        fontWeight: 'bold',
+    },
+
+    textBlue: {
+        color: 'blue'
+    },
+
+    textRed: {
+        color: 'red',
+    },
+
+
+    marginHor5: {
+        marginHorizontal: 5
+    }
 })

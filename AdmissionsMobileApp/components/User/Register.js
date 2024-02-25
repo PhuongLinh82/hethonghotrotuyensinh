@@ -1,8 +1,27 @@
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { Button, Image, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "react-native"
 import UserStyles from "./UserStyles"
 import Styles from "../../styles/Styles"
+import { Picker } from "@react-native-picker/picker"
+import { useState } from "react"
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker"
 
 const Register = () => {
+    const [gender, setGender] = useState('female');
+    const [date, setDate] = useState(new Date("2024-01-01"));
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setDate(currentDate);
+    };
+
+    const showDatePicker = () => {
+        DateTimePickerAndroid.open({
+        value: date,
+        onChange,
+        mode: 'date'
+        });
+    };
+
     return (
         <View style={Styles.container}>
             <TouchableOpacity>
@@ -14,9 +33,22 @@ const Register = () => {
             <TextInput style={UserStyles.input} placeholder="Xác nhận mật khẩu" secureTextEntry />
             <TextInput style={UserStyles.input} placeholder="Họ và tên" />
 
-            <Text>Giới tính</Text>
+            <View style={Styles.row}>
+                <Text style={{marginTop: 18}}>Giới tính:</Text>
+                <Picker selectedValue={gender}
+                    style={{width: 130}}
+                    onValueChange={(itemValue) => setGender(itemValue)} >
+                    <Picker.Item label="Nữ" value="female" />
+                    <Picker.Item label="Nam" value="male" />
+                </Picker>
+            </View>
 
-            <Text>Ngày sinh</Text>
+            <View style={Styles.row}>
+                <Text>Ngày sinh:</Text>
+                <TouchableOpacity onPress={showDatePicker}>
+                    <Text style={{fontWeight: 'bold', marginHorizontal: 10}}>{date.toLocaleDateString()}</Text>
+                </TouchableOpacity>
+            </View>
             
             <TextInput style={UserStyles.input} placeholder="Số điện thoại" />
 
