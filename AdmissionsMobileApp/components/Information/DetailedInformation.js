@@ -4,15 +4,9 @@ import { useEffect, useState } from "react"
 import API, { endpoints } from "../../configs/API";
 
 const DetailedInformation = ({route}) => {
-    // if (!route.params) {
-    //     console.error('route.params không tồn tại');
-    // }
-
     // const {informationId} = route.params;
 
     const [detailedInformation, setDetailedInformation] = useState(null);
-
-    const informationId = 1;
 
     useEffect(() => {
         const loadDetailedInformation = async () => {
@@ -23,7 +17,6 @@ const DetailedInformation = ({route}) => {
                 console.error(ex);
             }
         }
-
         loadDetailedInformation();
     }, []);
 

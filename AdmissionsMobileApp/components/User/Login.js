@@ -1,4 +1,4 @@
-import { Alert, Image, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Alert, Image, Text, TextInput, TouchableOpacity, View } from "react-native"
 import Styles from "../../styles/Styles"
 import UserStyles from "./UserStyles"
 import Icon from "react-native-vector-icons/Ionicons"
@@ -11,8 +11,11 @@ const Login = ({ navigation }) => {
     const [password, setPassword] = useState();
     const [ShowPassword, setShowPassword] = useState(false);
     const [user, dispatch] = useContext(MyContext);
+    const [loading, setLoading] = useState(false);
 
     const login = async () => {
+        setLoading(true);
+
         try {
             const formData = new FormData();
             formData.append("username", username);
@@ -46,8 +49,9 @@ const Login = ({ navigation }) => {
             })
             navigation.navigate('Home');
         } catch (ex) {
-            console.error(ex);
             Alert.alert("" ,"Tên đăng nhập hoặc mật khẩu không đúng!");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -77,9 +81,11 @@ const Login = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             
-            <TouchableOpacity onPress={login} style={UserStyles.button}>
-                <Text style={UserStyles.textButton}>Đăng nhập</Text>
-            </TouchableOpacity>
+            {loading === true ? <ActivityIndicator /> : <>
+                <TouchableOpacity onPress={login} style={UserStyles.button}>
+                    <Text style={UserStyles.textButton}>Đăng nhập</Text>
+                </TouchableOpacity>
+            </>}
 
             <View style={[Styles.row, {alignItems: 'center', marginTop: 20}]}>
                 <View style={UserStyles.line}></View>
@@ -110,7 +116,7 @@ const Login = ({ navigation }) => {
 
                 <Text> | </Text>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('Register')}>
                     <Text style={{color: 'blue'}}>Đăng ký</Text>
                 </TouchableOpacity>
             </View>

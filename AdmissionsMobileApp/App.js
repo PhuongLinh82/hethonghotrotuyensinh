@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { NavigationContainer } from "@react-navigation/native";
 import { useReducer } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MyContext from "./configs/MyContext";
 import UserReducer from "./reducers/UserReducer";
 import Home from "./components/Home/Home";
@@ -15,6 +16,8 @@ import Notification from "./components/Notification/Notification";
 import LoginNavigate from "./components/User/LoginNavigate";
 import FacultyDetails from "./components/Faculty/FacultyDetails";
 import DetailedInformation from "./components/Information/DetailedInformation";
+import Livestream from "./components/Livestream/Livestream";
+import UserProfile from "./components/User/UserProfile";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,30 +52,55 @@ const App = () => {
               )
             }} />
 
-          {/* <Tab.Screen name="Chat" component={Chat}
+          <Tab.Screen name="Chat" component={Chat}
             options={{
               tabBarIcon: ({color, size}) => (
                 <Icon name="chatbox-ellipses-outline" color={color} size={size} />
               )
-            }} /> */}
+            }} />
 
-          <Tab.Screen name="Login" component={Login} />
-          {/* options={{ tabBarStyle: { display: 'none' } }} */}
+          <Tab.Screen name="UserProfile" component={UserProfile}
+            options={{
+              title: "Tài khoản",
+              tabBarIcon: ({color, size}) => (
+                <FontAwesome name="user-o" color={color} size={size} />
+              )
+            }} />
 
-          {/* <Tab.Screen name="Register" component={Register} /> */}
-          {/* <Tab.Screen name="Faculty" component={Faculty} /> */}
-          {/* <Tab.Screen name="FacultyDetails" component={FacultyDetails} />  */}
-          <Tab.Screen name="Information" component={Information} />
-          <Tab.Screen name="DetailedInformation" component={DetailedInformation}
-            options={
-              {
-                tabBarItemStyle: {
-                  display: 'none'
-                }
-              }
-            }
+          <Tab.Screen name="Login" component={Login} 
+            options={{title: "Đăng nhập",
+            tabBarItemStyle: {display: 'none'}
+          }}
           />
 
+          <Tab.Screen name="Register" component={Register}
+            options={{title: "Đăng ký", 
+            tabBarItemStyle: {display: 'none'}
+          }}
+          />
+
+          <Tab.Screen name="Faculty" component={Faculty} 
+            options={{title: "Các khoa",
+              tabBarItemStyle: {display: 'none'}}}
+          />
+          <Tab.Screen name="FacultyDetails" component={FacultyDetails} 
+            options={{title: "Chi tiết khoa",
+              tabBarItemStyle: {display: 'none'}}}
+          /> 
+          <Tab.Screen name="Information" component={Information}
+            options={{title: "Tin tuyển sinh",
+              tabBarItemStyle: {display: 'none'}
+          }}
+          />
+          <Tab.Screen name="DetailedInformation" component={DetailedInformation}
+            options={{title: "Chi tiết tin tuyển sinh",
+              tabBarItemStyle: {display: 'none'}}}
+          />
+          <Tab.Screen name="Livestream" component={Livestream}
+            options={{
+              tabBarItemStyle: {display: 'none'}
+          }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </MyContext.Provider>

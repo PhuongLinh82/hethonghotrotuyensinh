@@ -9,6 +9,10 @@ const Register = () => {
     const [gender, setGender] = useState('female');
     const [date, setDate] = useState(new Date("2024-01-01"));
 
+    const register = async () => {
+
+    }
+    
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setDate(currentDate);
@@ -55,14 +59,6 @@ const Register = () => {
             <TouchableOpacity style={UserStyles.button}>
                 <Text style={Styles.textCenter}>Đăng ký</Text>
             </TouchableOpacity>
-
-            <View style={Styles.row}>
-                <Text>Bạn đã có tài khoản?  </Text>
-
-                <TouchableOpacity>
-                    <Text style={UserStyles.textBlue}>Đăng nhập</Text>
-                </TouchableOpacity>
-            </View>
         </View>
     )
 }

@@ -4,17 +4,18 @@ const HOST = 'https://phuonglinh.pythonanywhere.com'
 
 export const endpoints = {
     'informationsections': `/informationsection/`,
-    'informationsection': id => `/informationsection/${id}/information/`,
-    // 'information': (informationSectionId) => `/informationsection/${informationSectionId}/information/`,
+    'informationsection': (sectionId) => `/informationsection/${sectionId}/information/`,
     'information': `/information/`,
-    'information-details': (informationId) => `/information/${informationId}/`, //2 cai nay giong nhau ma
+    'information-details': (informationId) => `/information/${informationId}/`,
     'banners': '/banners/',
     'faculty': '/faculties/',
-    'facultyDetails': (facultyId) => `/faculty/${facultyId}/`,
+    'facultyDetails': (facultyId) => `/faculties/${facultyId}/`,
     'login': '/o/token/',
     // 'users': '/users/'
     'users': (userId) => `/users/${userId}/`,
-    'university': '/university/'
+    'university': '/university/',
+    'livestream': '/livestream/',
+    'livestream-details': (livestreamId) => `/livestream/${livestreamId}/`,
 }
 
 export const authApi = (accessToken) => {
