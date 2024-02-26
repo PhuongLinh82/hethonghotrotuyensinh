@@ -1,30 +1,30 @@
-import { ActivityIndicator, Button, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Button, FlatList, Image, ScrollView, SectionList, Text, TextInput, TouchableOpacity, View } from "react-native"
 import Styles from "../../styles/Styles"
 import HomeStyles from "./HomeStyles"
 import Icon from "react-native-vector-icons/Ionicons"
 import { useEffect, useState } from "react"
 import API, { endpoints } from "../../configs/API"
+import Pagination from "react-native-pagination"
 
 const Home = ({route, navigation}) => {
     const [informationsection, setInformationsection] = useState([]);
     const [information, setInformation] = useState(null);
     const [banners, setBanners] = useState(null);
     const [university, setUniversity] = useState(null);
-    const [informationsectionList, setInformationsectionList] = useState(null);
-
-    // const {informationSectionId} = route.params;
-
-    // useEffect(() => {
-    //     const loadInformationsectionList = async () => {
-    //         try {
-    //             let res = await API.get(endpoints['informationsectionList']);
-    //             setInformationsectionList(res.data);
-    //         } catch (ex) {
-    //             console.error(ex);
-    //         }
-    //     }
-    //     loadInformationsectionList();
-    // }, []);
+    const [livestream, setLivestream] = useState(null);
+    const [page, setPage] = useState(1);
+    
+    useEffect(() => {
+        const loadLivestream = async () => {
+            try {
+                let res = await API.get(endpoints['livestream']);
+                setLivestream(res.data);
+            } catch (ex) {
+                console.error(ex);
+            }
+        }
+        loadLivestream();
+    }, []);
 
     useEffect(() => {
         const loadInformationsection = async () => {
@@ -32,7 +32,7 @@ const Home = ({route, navigation}) => {
                 let res = await API.get(endpoints['informationsections']);
                 setInformationsection(res.data);
             } catch (ex) {
-                console.error(ex);
+                // console.error(ex);
             }
         }
         loadInformationsection();
@@ -44,7 +44,7 @@ const Home = ({route, navigation}) => {
                 let res = await API.get(endpoints['information']);
                 setInformation(res.data.results);
             } catch (ex) {
-                console.error(ex);
+                // console.error(ex);
             }
         }
         loadInformation();
@@ -74,59 +74,41 @@ const Home = ({route, navigation}) => {
         loadUniversity();
     }, []);
 
+    const goToInformation = (sectionId) => {
+        navigation.navigate('Information', {"sectionId": sectionId})
+    }
+
 // ---------------------------------------------------------------
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
             <ScrollView>
-                {/* Tin tuyển sinh */}
-                {informationsection === null ? <ActivityIndicator/> : <>
-                    {informationsection.map(is => (
-                        <View key={is.id}>
-                            <TouchableOpacity onPress={()=>navigation.navigate('Information', {sectionID: is.id})}>
-                                <Text style={{color: 'red'}}>{is.name}</Text>
-                            </TouchableOpacity>
-                            {/* {information
-                                .filter(f => (f.infosection === is.id))
-                                .map(i => (
-                                    <View key={i.id} >
-                                        <Text>{i.description}</Text>
-                                    </View>
-                                ))} */}
-                        </View>
-                    ))}
-                </>}
-                
-
-
-
-
-
                 {/* Banner */}
-                <View style={{backgroundColor: 'lightgray', alignItems: 'center'}}>
-                    <Text style={{padding: 30}}>Banner</Text>
+                <View style={HomeStyles.banner}>
+                    <Image 
+                        source={require('../../image/vidu.jpg')}
+                        style={{height: 160}}
+                    />
                 </View>
 
                 {/* Button Thông tin khoa và Câu hỏi thường gặp */}
                 <View style={[Styles.row, HomeStyles.spaceEvenly, HomeStyles.margin5]}>
-                    <TouchableOpacity style={{backgroundColor: 'cornflowerblue', padding: 5}}>
-                        <Text>THÔNG TIN KHOA</Text>
+                    <TouchableOpacity onPress={()=>navigation.navigate('Faculty')} style={HomeStyles.button_fac}>
+                        <Text style={{color: 'white'}}>THÔNG TIN KHOA</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity  style={{backgroundColor: 'salmon', padding: 5}}>
-                        <Text>CÂU HỎI THƯỜNG GẶP</Text>
+
+                    <TouchableOpacity  style={HomeStyles.button_ques}>
+                        <Text style={{color: 'white'}}>CÂU HỎI THƯỜNG GẶP</Text>
                     </TouchableOpacity>
                 </View>
 
                 {/* Tin tổng quan */}
-                {information === null ? <ActivityIndicator/> : <>
-                    {university.map(u => (
-                        <View key={u.id}>
-                            <Text>{u.introduction}</Text>
-                        </View>
-                    ))}
+                {university === null ? <ActivityIndicator/> : <>
+                {university.map(u => (
+                    <View style={HomeStyles.overview}>
+                        <Text>{u.introduction}</Text>
+                    </View>
+                ))}
                 </>}
-                {/* <View style={{backgroundColor: 'lightgray', alignItems: 'center'}}>
-                    <Text style={{padding: 20}}>Thông tin tổng quan</Text>
-                </View> */}
 
                 {/* Tư vấn tuyển sinh */}
                 <View style={[Styles.row, Styles.marginHor5, HomeStyles.spaceBetween]}>
@@ -162,27 +144,45 @@ const Home = ({route, navigation}) => {
                     <Button title="Gửi" />
                 </View>
 
-                {/* Hệ chính quy */}
-                <View style={[Styles.row, Styles.marginHor5, HomeStyles.spaceBetween]}>
-                    <Text style={Styles.textBoil}>THÔNG TIN TUYỂN SINH HỆ CHÍNH QUY</Text>
-                    <TouchableOpacity>
-                        <Text style={[Styles.textBoil, Styles.textRed]}>Xem thêm</Text>
-                    </TouchableOpacity>
-                </View>
+                {/* Tin tuyển sinh */}
+                {informationsection === null ? <ActivityIndicator/> : <>
+                    {informationsection.map(is => (
+                        <View key={is.id} style={{marginVertical: 10}} >
+                            <View style={[Styles.row, Styles.marginHor5, HomeStyles.spaceBetween]}>
+                                <Text style={{fontWeight: 'bold', fontSize: 20}}>{is.name}</Text>
+                                <TouchableOpacity onPress={() => goToInformation(is.id)}>
+                                    <Text style={{color: '#f37c33'}}>Xem thêm</Text>
+                                </TouchableOpacity>
+                            </View>
 
-                <TouchableOpacity style={Styles.row}>
-                    <Image 
-                        source={require('../../image/vidu.jpg')} 
-                        style={[HomeStyles.img, HomeStyles.margin5]} 
-                    />
-                    <View style={HomeStyles.spaceEvenly}>
-                        <Text style={Styles.textBlue}>Tiêu đề tin tuyển sinh...</Text>
-                        <View style={Styles.row}>
-                            <Icon name='time-outline' style={HomeStyles.margin3} />
-                            <Text>12:00  01/01/2024</Text>
+                            <FlatList
+                                data={information && information.slice(0, 5)}
+                                keyExtractor={(item, index) => index.toString()}
+                                onEndReached={() => setPage(page + 1)}
+                                renderItem={({ item }) => 
+                                    <TouchableOpacity 
+                                        onPress={()=>navigation.navigate('DetailedInformation', {informationId: item.id})} 
+                                        style={HomeStyles.info_container}
+                                    >
+                                        <Image 
+                                            source={require('../../image/vidu.jpg')} 
+                                            style={HomeStyles.img} 
+                                        />
+                                        <View style={{justifyContent: 'space-evenly'}}>
+                                            <View key={item.id}>
+                                                <Text numberOfLines={2} style={HomeStyles.info_title} >{item.title}</Text>
+                                            </View>
+                                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                                <Icon name='time-outline' style={{margin: 3}} />
+                                                <Text style={{color: 'gray'}}>12:00  01/01/2024</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                }
+                            />
                         </View>
-                    </View>
-                </TouchableOpacity>
+                    ))}
+                </>}
             </ScrollView>
         </View>
     )

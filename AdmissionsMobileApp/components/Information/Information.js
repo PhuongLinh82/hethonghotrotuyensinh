@@ -4,33 +4,27 @@ import InformationStyle from "./InformationStyle"
 import Icon from "react-native-vector-icons/Ionicons"
 import { useEffect, useState } from "react"
 import API, { endpoints } from "../../configs/API"
+import HomeStyles from "../Home/HomeStyles"
 
 const Information = ({ route, navigation }) => {
     const [information, setInformation] = useState(null);
-    const [informationDetails, setInformationDetails] = useState(null);
-    const informationSectionId = route.params?.sectionID;
-
-    // const informationSectionId = 1;
 
     useEffect(() => {
-        console.log(informationSectionId)
         const loadInformation = async () => {
-            let url = endpoints['informationsection'](informationSectionId);
+            let url = endpoints['informationsection'](route.params.sectionId);
+            // (informationSectionId)
 
             // if (informationSectionId !== null && informationSectionId !== undefined)
-            //     url = `${url}?infosection=${informationSectionId}%2F`
-
+            //     url = `${url}?infosection=${informationSectionId}`
             try {
                 let res = await API.get(url);
-                console.log(res.data)
                 setInformation(res.data);
             } catch (ex) {
                 console.error(ex);
             }
         }
-
         loadInformation();
-    }, [informationSectionId]);
+    }, []);
 
     return (
         <View style={Styles.container}>
@@ -39,23 +33,17 @@ const Information = ({ route, navigation }) => {
                     <>
                         {information.map(i => (
                             <TouchableOpacity onPress={()=>{navigation.navigate('DetailedInformation', {informationId: i.id})}}>
-                                <View key={i.id} style={[Styles.row, { width: '100%', height: 100 }]}>
+                                <View key={i.id} style={HomeStyles.info_container}>
                                     <Image
                                         source={require('../../image/vidu.jpg')}
                                         // source={{uri: i.image}}
-                                        style={InformationStyle.image}
+                                        style={HomeStyles.img}
                                     />
-                                    <View>
-                                        <Text style={InformationStyle.title}>{information.description}</Text>
-                                        <View style={Styles.row}>
-                                            <Text>
-
-                                                <Icon
-                                                    name='time-outline'
-                                                    style={InformationStyle.icon}
-                                                />
-                                            </Text>
-                                            <Text>12:00  01/01/2024</Text>
+                                    <View style={{justifyContent: 'space-evenly'}}>
+                                        <Text numberOfLines={2} style={HomeStyles.info_title}>{i.title}</Text>
+                                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                            <Icon name='time-outline' style={{margin: 3}} />
+                                            <Text style={{color: 'gray'}}>12:00  01/01/2024</Text>
                                         </View>
                                     </View>
                                 </View>
