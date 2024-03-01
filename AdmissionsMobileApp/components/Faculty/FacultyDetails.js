@@ -11,7 +11,7 @@ const FacultyDetails = ({ route }) => {
     useEffect(() => {
         const loadFacultyDetails = async () => {
             try {
-                let res = await API.get(endpoints['facultyDetails'](facultyId));
+                let res = await API.get(endpoints['faculty-details'](facultyId));
                 setFaculty(res.data);
             } catch (ex) {
                 console.error(ex);
@@ -21,7 +21,7 @@ const FacultyDetails = ({ route }) => {
         loadFacultyDetails();
     }, [facultyId]);
 
-    const [openIndex, setOpenIndex] = useState(1);
+    const [openIndex, setOpenIndex] = useState(0);
 
     const toggleItem = (index) => {
         setOpenIndex(openIndex === index ? null : index);

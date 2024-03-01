@@ -55,5 +55,11 @@ export default StyleSheet.create({
         paddingVertical: 5,
         marginRight: 20,
     },
+
+    avatar: {
+        width: 100,
+        height: 100,
+        borderRadius: 5
+    }
     
 })

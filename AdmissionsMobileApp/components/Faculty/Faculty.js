@@ -4,7 +4,7 @@ import FacultyStyles from "./FacultyStyles"
 import { useEffect, useState } from "react"
 import API, { endpoints } from "../../configs/API"
 
-const Faculty = ({navigation, route}) => {
+const Faculty = ({navigation}) => {
     const [faculty, setFaculty] = useState(null);
     
     useEffect(() => {
@@ -20,13 +20,21 @@ const Faculty = ({navigation, route}) => {
         loadFaculty();
     }, []);
 
+    const goToFacultyDetails = (facultyId) => {
+        navigation.navigate('FacultyDetails', {facultyId})
+    }
+
     return (
         <View style={Styles.container}>
             {faculty === null ? <ActivityIndicator /> : <>
                 {faculty.map(f => (
-                    <TouchableOpacity key={f.id} onPress={()=>{navigation.navigate('FacultyDetails', {facultyId: f.id})}} style={FacultyStyles.container} >
+                    <TouchableOpacity 
+                        key={f.id} 
+                        onPress={() => goToFacultyDetails(f.id)}
+                        style={FacultyStyles.container}
+                    >
                         <Image 
-                            source={require('../../image/vidu.jpg')} 
+                            source={{uri: f.image}} 
                             style={FacultyStyles.image}
                         />
                         <Text style={FacultyStyles.text_fac_name}>{f.name}</Text>
