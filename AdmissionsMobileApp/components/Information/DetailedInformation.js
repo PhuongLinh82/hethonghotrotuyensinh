@@ -24,11 +24,9 @@ const DetailedInformation = ({route}) => {
         <View style={Styles.container}>
             <ScrollView>
                 {detailedInformation === null ? <ActivityIndicator /> : <>
-                    {/* {detailedInformation.map(d => ( */}
-                        <View key={detailedInformation.id}>
-                            <Text>{detailedInformation.description}</Text>
-                        </View>
-                    {/* ))} */}
+                    <View key={detailedInformation.id}>
+                        <Text>{detailedInformation.description}</Text>
+                    </View>
                 </>}
             </ScrollView>
         </View>

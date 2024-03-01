@@ -32,20 +32,11 @@ const Login = ({ navigation }) => {
                 })
             console.info(res.data);
 
-            // let res = await API.post(endpoints['login'], {
-            //     "username": username,
-            //     "password": password,
-            //     "client_id": "52GEEIGE17ZGCiBUun1y5Q7JxtHuc4OiRONYSuBl",
-            //     "client_secret": "OoqA2vguQzg35ILX8gvxZOR1CLhaFXEJZDuwS2W8O1Mw5uHCRNju3aTuk9OqYkBJ1Pu1AN5ZELEkjXu76GSkYvFZUkFWtmRQNTwEBIH9qykHICe4FNwvvr1ZMaxPeBVH",
-            //     "grant_type": "password"
-            // });
-            
+            let user = await authApi(res.data.access_token).get(endpoints['users']);
 
-            // let user = await authApi(res.data.access_token).get(endpoints['users']);
             dispatch({
                 type: 'login',
-                payload: {"username": "admin"}
-                // user.data
+                payload: user.data
             })
             navigation.navigate('Home');
         } catch (ex) {
@@ -87,13 +78,13 @@ const Login = ({ navigation }) => {
                 </TouchableOpacity>
             </>}
 
-            <View style={[Styles.row, {alignItems: 'center', marginTop: 20}]}>
+            {/* <View style={[Styles.row, {alignItems: 'center', marginTop: 20}]}>
                 <View style={UserStyles.line}></View>
                 <Text style={{color: 'gray'}}>Hoặc đăng nhập với</Text>
                 <View style={UserStyles.line}></View>
-            </View>
+            </View> */}
 
-            <View style={Styles.row}>
+            {/* <View style={Styles.row}>
                 <TouchableOpacity>
                     <Image
                         source={require('../../image/LogoFB.png')}
@@ -107,7 +98,7 @@ const Login = ({ navigation }) => {
                         style={UserStyles.logo}
                     />
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
             <View style={[Styles.row, {marginTop: 30}]}>
                 <TouchableOpacity>

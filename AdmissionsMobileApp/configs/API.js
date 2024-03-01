@@ -9,10 +9,10 @@ export const endpoints = {
     'information-details': (informationId) => `/information/${informationId}/`,
     'banners': '/banners/',
     'faculty': '/faculties/',
-    'facultyDetails': (facultyId) => `/faculties/${facultyId}/`,
+    'faculty-details': (facultyId) => `/faculties/${facultyId}/`,
     'login': '/o/token/',
-    // 'users': '/users/'
-    'users': (userId) => `/users/${userId}/`,
+    'users': '/users/',
+    'register': '/users/',
     'university': '/university/',
     'livestream': '/livestream/',
     'livestream-details': (livestreamId) => `/livestream/${livestreamId}/`,
@@ -22,7 +22,7 @@ export const authApi = (accessToken) => {
     return axios.create({
         baseURL: HOST,
         headers: {
-            'Authorization': `bearer ${accessToken}`
+            "Authorization": `bearer ${accessToken}`
         }
     })
 }

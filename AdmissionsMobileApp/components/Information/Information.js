@@ -1,6 +1,5 @@
 import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import Styles from "../../styles/Styles"
-import InformationStyle from "./InformationStyle"
 import Icon from "react-native-vector-icons/Ionicons"
 import { useEffect, useState } from "react"
 import API, { endpoints } from "../../configs/API"
@@ -12,10 +11,7 @@ const Information = ({ route, navigation }) => {
     useEffect(() => {
         const loadInformation = async () => {
             let url = endpoints['informationsection'](route.params.sectionId);
-            // (informationSectionId)
 
-            // if (informationSectionId !== null && informationSectionId !== undefined)
-            //     url = `${url}?infosection=${informationSectionId}`
             try {
                 let res = await API.get(url);
                 setInformation(res.data);
@@ -26,31 +22,35 @@ const Information = ({ route, navigation }) => {
         loadInformation();
     }, []);
 
+    const gotoDetailedInformation = (informationId) => {
+        navigation.navigate('DetailedInformation', {informationId});
+    }
+
     return (
         <View style={Styles.container}>
             <ScrollView>
-                {information === null ? <ActivityIndicator /> :
-                    <>
-                        {information.map(i => (
-                            <TouchableOpacity onPress={()=>{navigation.navigate('DetailedInformation', {informationId: i.id})}}>
-                                <View key={i.id} style={HomeStyles.info_container}>
-                                    <Image
-                                        source={require('../../image/vidu.jpg')}
-                                        // source={{uri: i.image}}
-                                        style={HomeStyles.img}
-                                    />
-                                    <View style={{justifyContent: 'space-evenly'}}>
-                                        <Text numberOfLines={2} style={HomeStyles.info_title}>{i.title}</Text>
-                                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                            <Icon name='time-outline' style={{margin: 3}} />
-                                            <Text style={{color: 'gray'}}>12:00  01/01/2024</Text>
-                                        </View>
+                {information === null ? <ActivityIndicator /> : <>
+                    {information.map(i => (
+                        <TouchableOpacity 
+                            key={i.id} 
+                            onPress={() => gotoDetailedInformation(i.id)}
+                        >
+                            <View style={HomeStyles.info_container}>
+                                <Image
+                                    source={{uri: i.image}}
+                                    style={HomeStyles.img}
+                                />
+                                <View style={{justifyContent: 'space-evenly'}}>
+                                    <Text numberOfLines={2} style={HomeStyles.info_title}>{i.title}</Text>
+                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                        <Icon name='time-outline' style={{margin: 3}} />
+                                        <Text style={{color: 'gray'}}>12:00  01/01/2024</Text>
                                     </View>
                                 </View>
-                            </TouchableOpacity>
-                        ))}
-                    </>
-                }
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </>}
             </ScrollView>
         </View>
     )

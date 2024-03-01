@@ -24,6 +24,12 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
 
+    container_button: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        margin: 5,
+    },
+
     button_fac: {
         backgroundColor: '#3b3f79', 
         padding: 10,
@@ -39,11 +45,18 @@ export default StyleSheet.create({
     },
 
     overview: {
-        margin: 10,
+        marginHorizontal: 10,
+        marginVertical: 15,
         backgroundColor: 'white',
         elevation: 10,
         padding: 10,
         borderRadius: 10,
+    },
+
+    sectionName: {
+        flexDirection: 'row',
+        marginHorizontal: 5,
+        justifyContent: 'space-between',
     },
 
     spaceBetween: {
